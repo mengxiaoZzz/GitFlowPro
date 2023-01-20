@@ -1,0 +1,103 @@
+<idea-plugin>
+    <id>com.github.gu.GitFlowPro</id>
+    <name>GitFlowPro</name>
+    <vendor email="111@qq.com" url="">deemo</vendor>
+
+    <description>
+    主要功能如下：
+     1. 插件配置文件可以加入GIT版本管理，在团队内部共享;
+     2. 基于origin/master新建开发分支和修复分支;
+     3. 基于origin/master重建测试分支和发布分支;
+     4. 开发完成后将开发分支合并到测试分支;
+     4. 测试完成后将开发分支合并到发布分支，并锁定发布分支;
+     5. 发布完成后将发布分支合并到origin/master分支;
+     6. 发布失败将解除发布分支的锁定;
+     7. 只有锁定发布分支的人才能点[发布完成]和[发布失败];
+     8. 所有执行的git命令都可以在"Event Log"查看;
+     9. 支持在本地发起Merge Request;
+
+    </description>
+
+    <depends>com.intellij.modules.vcs</depends>
+    <depends>com.intellij.tasks</depends>
+    <depends>Git4Idea</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <applicationService serviceInterface="com.github.xiaolyuh.git.GitFlowPlus"
+                            serviceImplementation="com.github.xiaolyuh.git.GitFlowPlusImpl"/>
+        <!-- Add your extensions here -->
+        <applicationService serviceInterface="com.github.xiaolyuh.git.Git"
+                            serviceImplementation="com.github.xiaolyuh.git.GitImpl"/>
+
+        <notificationGroup displayType="BALLOON" id="GitFlowPlusNotification"/>
+    </extensions>
+
+    <project-components>
+        <component>
+            <implementation-class>com.github.xiaolyuh.GitFlowPlusComponent</implementation-class>
+        </component>
+    </project-components>
+
+    <actions>
+        <!-- Add your actions here -->
+        <group id="GitFlowPlus.Menu" text="GitFlowPro" description="GIT分支管理" icon="/icons/icon.svg" popup="true">
+
+            <add-to-group group-id="MainToolBar" anchor="last"/>
+
+            <!--配置管理-->
+            <action id="GitFlowPlus.InitPluginAction" class="com.github.xiaolyuh.action.InitPluginAction"
+                    text="初始化配置" description="初始化仓库配置，如果测试分支与发布分支不存在，将基于master新建" icon="/icons/config.svg"/>
+            <separator/>
+
+            <!--新建分支-->
+            <action id="GitFlowPlus.NewFeatureAction" class="com.github.xiaolyuh.action.NewFeatureAction"
+                    text="新建开发分支" description="新建开发分支，并推送到远程仓库" icon="/icons/feature.svg"/>
+            <action id="GitFlowPlus.NewHotFixAction" class="com.github.xiaolyuh.action.NewHotFixAction"
+                    text="新建修复分支" description="新建修复分支，并推送到远程仓库"/>
+            <separator/>
+
+            <group id="GitFlowPlus.RebuildBranch" popup="true" text="重建分支"
+                   class="com.github.xiaolyuh.action.RebuildActionGroup">
+                <action id="GitFlowPlus.RebuildTestAction" class="com.github.xiaolyuh.action.RebuildTestAction"
+                        text="重建测试分支" description="重建测试分支，并推送到远程仓库，原来的分支将被删除" icon="/icons/test.svg"/>
+                <action id="GitFlowPlus.RebuildReleaseAction" class="com.github.xiaolyuh.action.RebuildReleaseAction"
+                        text="重建发布分支" description="重建发布分支，并推送到远程仓库，原来的分支将被删除" icon="/icons/release.svg"/>
+            </group>
+            <separator/>
+
+            <!--解决冲突-->
+            <action id="GitFlowPlus.ResolveConflicts" class="com.github.xiaolyuh.action.GitResolveConflictsAction"
+                    text="解决冲突" description="解决冲突"/>
+            <separator/>
+
+            <!--merge request-->
+            <action id="GitFlowPlus.MergeRequestAction" class="com.github.xiaolyuh.action.MergeRequestAction"
+                    text="Merge Request" description="发起 code review" icon="/icons/mergeToTest.svg">
+            </action>
+            <separator/>
+
+            <!--提测-->
+            <action id="GitFlowPlus.StartTestAction" class="com.github.xiaolyuh.action.StartTestAction"
+                    text="提测" description="将当前开发分支合并到test分支" icon="/icons/mergeToTest.svg">
+            </action>
+            <separator/>
+
+            <!--发布流程-->
+            <action id="GitFlowPlus.StartReleaseAction" class="com.github.xiaolyuh.action.StartReleaseAction"
+                    text="开始发布" description="将当前开发分支合并到发布分支，加锁，防止再有开发分支合并到发布分支" icon="/icons/start.svg"/>
+            <action id="GitFlowPlus.FinishReleaseAction" class="com.github.xiaolyuh.action.FinishReleaseAction"
+                    text="发布完成" description="解锁，并将发布分支合并到主干分支" icon="/icons/finished.svg"/>
+            <separator/>
+
+            <action id="GitFlowPlus.DeleteBranchAction" class="com.github.xiaolyuh.action.DeleteBranchAction"
+                    text="删除分支" description="批了删除无效分支" icon="/icons/deleted.svg"/>
+            <separator/>
+
+            <!--帮助-->
+            <action id="GitFlowPlus.HelpAction" class="com.github.xiaolyuh.action.HelpAction"
+                    text="帮助" description="帮助" icon="/icons/help.svg"/>
+
+        </group>
+    </actions>
+</idea-plugin>

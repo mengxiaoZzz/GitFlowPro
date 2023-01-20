@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '1.12.0'
+}
+
+group 'com.github.xiaolyuh'
+version pluginVersion
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    //implementation 'com.alibaba:fastjson:1.2.28'
+    implementation 'com.alibaba.fastjson2:fastjson2:2.0.23'
+}
+
+intellij {
+    version = ideaVersion
+    plugins = ['Git4Idea', 'tasks']
+    intellij.updateSinceUntilBuild = false
+}
+
+patchPluginXml {
+    sinceBuild = mgfPluginSinceBuild
+    untilBuild = mgfPluginUntilBuild
+    changeNotes = """
+         <em>2.0.0<em></br
+        <em>适配2022.3<em></br> 
+      """
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
