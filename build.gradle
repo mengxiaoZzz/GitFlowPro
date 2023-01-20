@@ -16,7 +16,6 @@ repositories {
 dependencies {
     testImplementation 'junit:junit:4.13.2'
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
-    //implementation 'com.alibaba:fastjson:1.2.28'
     implementation 'com.alibaba.fastjson2:fastjson2:2.0.23'
 }
 
