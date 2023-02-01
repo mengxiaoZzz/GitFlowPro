@@ -41,7 +41,7 @@ public abstract class ConfigUtil {
         File file = new File(filePath);
         try (PrintStream ps = new PrintStream(new FileOutputStream(file))) {
             // 往文件里写入字符串
-            ps.println(configJson);
+            ps.print(configJson);
             ps.flush();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -58,7 +58,6 @@ public abstract class ConfigUtil {
         if (Objects.isNull(project)) {
             return false;
         }
-
         return getConfig(project).isPresent();
     }
 
@@ -73,7 +72,6 @@ public abstract class ConfigUtil {
         if (Objects.isNull(options)) {
             options = getConfigToLocal(project);
         }
-
         return Optional.ofNullable(options);
     }
 

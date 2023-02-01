@@ -28,26 +28,15 @@ public class InitPluginDialog extends DialogWrapper {
     private JPanel contentPane;
 
     private JComboBox<String> masterBranchComboBox;
-    private JComboBox<String> releaseBranchComboBox;
     private JComboBox<String> testBranchComboBox;
     private JTextField featurePrefixTextField;
     private JTextField hotfixPrefixTextField;
-    private JTextField tagPrefixTextField;
-    private JTextField dingtalkTokenTextField;
-    private JCheckBox releaseFinishIsDeleteReleaseCheckBox;
-    private JCheckBox releaseFinishIsDeleteFeatureCheckBox;
-    private JComboBox<String> languageComboBox;
     private JLabel specialBranchConfigLabel;
     private JLabel mastBranchLabel;
-    private JLabel releaseBranchLabel;
     private JLabel testBranchLabel;
-    private JLabel branchOptionsConfig;
     private JLabel branchPrefixConfigLabel;
     private JLabel featureBranchPrefixLabel;
     private JLabel hotfixBranchPrefixLabel;
-    private JLabel tagNamePrefixLabel;
-    private JTextField helloTokenTextField;
-    private JTextField recipientTextField;
 
     public InitPluginDialog(Project project) {
         super(project);
@@ -58,10 +47,6 @@ public class InitPluginDialog extends DialogWrapper {
         initDialog(project);
 
         init();
-        languageComboBox.addItemListener(e -> {
-            I18n.loadLanguageProperties(LanguageEnum.getByLanguage((String) languageComboBox.getSelectedItem()));
-            languageSwitch();
-        });
     }
 
     private void languageSwitch() {
@@ -69,15 +54,10 @@ public class InitPluginDialog extends DialogWrapper {
 
         specialBranchConfigLabel.setText(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$SPECIAL_BRANCH_CONFIG_LABEL));
         mastBranchLabel.setText(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$MAST_BRANCH_LABEL));
-        releaseBranchLabel.setText(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$RELEASE_BRANCH_LABEL));
         testBranchLabel.setText(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$TEST_BRANCH_LABEL));
-        branchOptionsConfig.setText(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$BRANCH_OPTIONS_CONFIG));
-        releaseFinishIsDeleteReleaseCheckBox.setText(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$RELEASE_FINISH_DELETE_RELEASE));
-        releaseFinishIsDeleteFeatureCheckBox.setText(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$RELEASE_FINISH_DELETE_FEATURE));
         branchPrefixConfigLabel.setText(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$BRANCH_PREFIX_CONFIG_LABEL));
         featureBranchPrefixLabel.setText(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$FEATURE_BRANCH_PREFIX_LABEL));
         hotfixBranchPrefixLabel.setText(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$HOTFIX_BRANCH_PREFIX_LABEL));
-        tagNamePrefixLabel.setText(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$TAG_NAME_PREFIX_LABEL));
     }
 
 
@@ -85,17 +65,9 @@ public class InitPluginDialog extends DialogWrapper {
         InitOptions options = new InitOptions();
 
         options.setMasterBranch((String) masterBranchComboBox.getSelectedItem());
-        options.setReleaseBranch((String) releaseBranchComboBox.getSelectedItem());
         options.setTestBranch((String) testBranchComboBox.getSelectedItem());
         options.setFeaturePrefix(featurePrefixTextField.getText());
         options.setHotfixPrefix(hotfixPrefixTextField.getText());
-        options.setTagPrefix(tagPrefixTextField.getText());
-        options.setReleaseFinishIsDeleteFeature(releaseFinishIsDeleteFeatureCheckBox.isSelected());
-        options.setReleaseFinishIsDeleteRelease(releaseFinishIsDeleteReleaseCheckBox.isSelected());
-        options.setDingtalkToken(dingtalkTokenTextField.getText());
-        options.setLanguage(LanguageEnum.getByLanguage((String) languageComboBox.getSelectedItem()));
-        options.setHelloToken(helloTokenTextField.getText());
-        options.setRecipient(recipientTextField.getText());
 
         return options;
     }
@@ -116,26 +88,16 @@ public class InitPluginDialog extends DialogWrapper {
             releaseBranchList.addAll(remoteBranches);
             testBranchList.addAll(remoteBranches);
             masterBranchComboBox.setModel(new CollectionComboBoxModel<>(remoteBranches, options.get().getMasterBranch()));
-            releaseBranchComboBox.setModel(new CollectionComboBoxModel<>(remoteBranches, options.get().getReleaseBranch()));
             testBranchComboBox.setModel(new CollectionComboBoxModel<>(remoteBranches, options.get().getTestBranch()));
-            languageComboBox.setModel(new CollectionComboBoxModel<>(languages, options.get().getLanguage().getLanguage()));
 
             featurePrefixTextField.setText(options.get().getFeaturePrefix());
             hotfixPrefixTextField.setText(options.get().getHotfixPrefix());
-            tagPrefixTextField.setText(options.get().getTagPrefix());
-            releaseFinishIsDeleteReleaseCheckBox.setSelected(false);
-            releaseFinishIsDeleteFeatureCheckBox.setSelected(false);
-            dingtalkTokenTextField.setText(options.get().getDingtalkToken());
-            helloTokenTextField.setText(options.get().getHelloToken());
-            recipientTextField.setText(options.get().getRecipient());
 
             languageSwitch();
         } else {
 
             masterBranchComboBox.setModel(new CollectionComboBoxModel<>(remoteBranches));
-            releaseBranchComboBox.setModel(new CollectionComboBoxModel<>(remoteBranches));
             testBranchComboBox.setModel(new CollectionComboBoxModel<>(remoteBranches));
-            languageComboBox.setModel(new CollectionComboBoxModel<>(languages));
         }
     }
 
@@ -152,15 +114,8 @@ public class InitPluginDialog extends DialogWrapper {
     @Nullable
     @Override
     protected ValidationInfo doValidate() {
-        if (Objects.equals(masterBranchComboBox.getSelectedItem(), releaseBranchComboBox.getSelectedItem())) {
-
-            return new ValidationInfo(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$RELEASE_LIKE_MASTER), releaseBranchComboBox);
-        }
         if (Objects.equals(masterBranchComboBox.getSelectedItem(), testBranchComboBox.getSelectedItem())) {
             return new ValidationInfo(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$TEST_LIKE_MASTER), testBranchComboBox);
-        }
-        if (releaseBranchComboBox.getSelectedItem().equals(testBranchComboBox.getSelectedItem())) {
-            return new ValidationInfo(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$TEST_LIKE_RELEASE), testBranchComboBox);
         }
         if (StringUtil.isEmptyOrSpaces(featurePrefixTextField.getText())) {
             return new ValidationInfo(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$FEATURE_PREFIX_REQUIRED), featurePrefixTextField);
@@ -168,7 +123,6 @@ public class InitPluginDialog extends DialogWrapper {
         if (StringUtil.isEmptyOrSpaces(hotfixPrefixTextField.getText())) {
             return new ValidationInfo(I18n.getContent(I18nKey.INIT_PLUGIN_DIALOG$HOTFIX_PREFIX_REQUIRED), hotfixPrefixTextField);
         }
-
         return null;
     }
 
