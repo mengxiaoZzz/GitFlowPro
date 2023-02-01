@@ -70,7 +70,7 @@ public class MergeRequestAction extends AbstractMergeAction {
         new Task.Backgroundable(project, "Merge Request", false) {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
-                NotifyUtil.notifyGitCommand(event.getProject(), "===================================================================================");
+                // NotifyUtil.notifyGitCommand(event.getProject(), "=================");
 
                 // 新建临时分支
                 String tempBranchName = currentBranch + "_mr";

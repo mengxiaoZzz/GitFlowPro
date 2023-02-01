@@ -22,8 +22,7 @@ import java.util.List;
 public class StartTestAction extends AbstractMergeAction {
 
     public StartTestAction() {
-
-        super("提测", "将当前开发分支合并到test分支", IconLoader.getIcon("/icons/mergeToTest.svg", AbstractNewBranchAction.class));
+        super("提交测试", "将当前开发分支合并到test分支", IconLoader.getIcon("/icons/mergeToTest.svg", AbstractNewBranchAction.class));
     }
 
     @Override

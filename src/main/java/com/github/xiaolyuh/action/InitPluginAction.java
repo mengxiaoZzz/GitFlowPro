@@ -33,7 +33,7 @@ public class InitPluginAction extends AnAction {
     private GitFlowPlus gitFlowPlus = GitFlowPlus.getInstance();
 
     public InitPluginAction() {
-        super("初始化配置", "初始化仓库配置，如果测试分支与发布分支不存在，将基于master新建", IconLoader.getIcon("/icons/config.svg", AbstractNewBranchAction.class));
+        super("初始化配置", "初始化仓库配置,如果测试分支与发布分支不存在,将基于master新建", IconLoader.getIcon("/icons/config.svg", AbstractNewBranchAction.class));
     }
 
     @Override
@@ -63,7 +63,7 @@ public class InitPluginAction extends AnAction {
             new Task.Backgroundable(project, "Init GitFlowPro Plugins", false) {
                 @Override
                 public void run(@NotNull ProgressIndicator indicator) {
-                    NotifyUtil.notifyGitCommand(event.getProject(), "===================================================================================");
+                    // NotifyUtil.notifyGitCommand(event.getProject(), "=================");
 
                     // 校验主干分支是否存在
                     List<String> remoteBranches = GitBranchUtil.getRemoteBranches(project);
@@ -72,7 +72,7 @@ public class InitPluginAction extends AnAction {
                         return;
                     }
 
-                    // 校验主测试支是否存在，不存在就新建
+                    // 校验测试分支是否存在,不存在就新建
                     if (!remoteBranches.contains(initOptions.getTestBranch())) {
                         GitCommandResult result = gitFlowPlus.newNewBranchBaseRemoteMaster(repository, initOptions.getMasterBranch(), initOptions.getTestBranch());
                         if (result.success()) {
@@ -83,17 +83,17 @@ public class InitPluginAction extends AnAction {
                         }
                     }
 
-                    // 校验主发布支是否存在，不存在就新建
-                    if (!remoteBranches.contains(initOptions.getReleaseBranch())) {
-                        // 新建分支发布分支
-                        GitCommandResult result = gitFlowPlus.newNewBranchBaseRemoteMaster(repository, initOptions.getMasterBranch(), initOptions.getReleaseBranch());
-                        if (result.success()) {
-                            NotifyUtil.notifySuccess(myProject, "Success", String.format(I18n.getContent(I18nKey.NEW_BRANCH_SUCCESS), initOptions.getMasterBranch(), initOptions.getReleaseBranch()));
-                        } else {
-                            NotifyUtil.notifyError(myProject, "Error", String.format(I18n.getContent(I18nKey.INIT_PLUGIN_ACTION$NOT_EXIST_MASTER_INFO), initOptions.getReleaseBranch()));
-                            return;
-                        }
-                    }
+                    // 校验主发布支是否存在,不存在就新建
+//                    if (!remoteBranches.contains(initOptions.getReleaseBranch())) {
+//                        // 新建分支发布分支
+//                        GitCommandResult result = gitFlowPlus.newNewBranchBaseRemoteMaster(repository, initOptions.getMasterBranch(), initOptions.getReleaseBranch());
+//                        if (result.success()) {
+//                            NotifyUtil.notifySuccess(myProject, "Success", String.format(I18n.getContent(I18nKey.NEW_BRANCH_SUCCESS), initOptions.getMasterBranch(), initOptions.getReleaseBranch()));
+//                        } else {
+//                            NotifyUtil.notifyError(myProject, "Error", String.format(I18n.getContent(I18nKey.INIT_PLUGIN_ACTION$NOT_EXIST_MASTER_INFO), initOptions.getReleaseBranch()));
+//                            return;
+//                        }
+//                    }
 
                     // 存储配置
                     String configJson = JSON.toJSONString(initOptions);

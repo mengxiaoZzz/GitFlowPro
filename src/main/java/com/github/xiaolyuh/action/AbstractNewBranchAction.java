@@ -3,9 +3,9 @@ package com.github.xiaolyuh.action;
 import com.github.xiaolyuh.git.GitFlowPlus;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
+import com.github.xiaolyuh.notify.NotifyUtil;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.utils.GitBranchUtil;
-import com.github.xiaolyuh.notify.NotifyUtil;
 import com.github.xiaolyuh.utils.StringUtils;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -75,7 +75,7 @@ public abstract class AbstractNewBranchAction extends AnAction {
                     return;
                 }
 
-                NotifyUtil.notifyGitCommand(event.getProject(), "===================================================================================");
+                // NotifyUtil.notifyGitCommand(event.getProject(), "=================");
                 if (isDeleteBranch()) {
                     // 删除分支
                     GitCommandResult result = gitFlowPlus.deleteBranch(repository, master, newBranchName);

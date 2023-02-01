@@ -3,7 +3,6 @@ package com.github.xiaolyuh.action;
 import com.github.xiaolyuh.action.options.DeleteBranchOptions;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
-import com.github.xiaolyuh.notify.NotifyUtil;
 import com.github.xiaolyuh.ui.BranchDeleteDialog;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.utils.GitBranchUtil;
@@ -73,7 +72,7 @@ public class DeleteBranchAction extends AbstractMergeAction {
         new Task.Backgroundable(project, "是否确实删除当前分支", false) {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
-                NotifyUtil.notifyGitCommand(event.getProject(), "===================================================================================");
+                // NotifyUtil.notifyGitCommand(event.getProject(), "=================");
                 DeleteBranchOptions deleteBranchOptions = branchDeleteDialog.getDeleteBranchOptions();
 
                 deleteBranchOptions.getBranches().forEach(branchVo -> {

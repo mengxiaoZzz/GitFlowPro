@@ -4,7 +4,6 @@ import com.github.xiaolyuh.action.options.TagOptions;
 import com.github.xiaolyuh.git.GitFlowPlus;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
-import com.github.xiaolyuh.notify.NotifyUtil;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.utils.GitBranchUtil;
 import com.github.xiaolyuh.utils.StringUtils;
@@ -21,12 +20,13 @@ import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import git4idea.repo.GitRepository;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import javax.swing.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Merge 抽象Action
@@ -107,7 +107,7 @@ public abstract class AbstractMergeAction extends AnAction {
             new Task.Backgroundable(project, getTaskTitle(project), false) {
                 @Override
                 public void run(@NotNull ProgressIndicator indicator) {
-                    NotifyUtil.notifyGitCommand(event.getProject(), "===================================================================================");
+                    // NotifyUtil.notifyGitCommand(event.getProject(), "=================");
                     List<Valve> valves = getValves();
                     for (Valve valve : valves) {
                         if (!valve.invoke(project, repository, currentBranch, targetBranch, tagOptions)) {

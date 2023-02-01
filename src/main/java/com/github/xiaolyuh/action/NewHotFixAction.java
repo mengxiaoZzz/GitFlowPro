@@ -1,12 +1,13 @@
 package com.github.xiaolyuh.action;
 
-import com.github.xiaolyuh.validator.GitNewBranchNameValidator;
 import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
 import com.github.xiaolyuh.utils.ConfigUtil;
+import com.github.xiaolyuh.validator.GitNewBranchNameValidator;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.IconLoader;
 import git4idea.GitUtil;
 
 /**
@@ -17,7 +18,7 @@ import git4idea.GitUtil;
 public class NewHotFixAction extends AbstractNewBranchAction {
 
     public NewHotFixAction() {
-        super("新建修复分支","新建开发分支，并推送到远程仓库", null);
+        super("新建修复分支", "新建开发分支，并推送到远程仓库", IconLoader.getIcon("/icons/feature.svg", AbstractNewBranchAction.class));
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.github.xiaolyuh.ui;
 
 import com.github.xiaolyuh.action.*;
 import com.github.xiaolyuh.i18n.I18n;
-import com.github.xiaolyuh.i18n.I18nKey;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.CustomShortcutSet;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
@@ -85,35 +84,38 @@ public class GitFlowPlusWidget extends EditorBasedWidget implements StatusBarWid
         popupGroup.add(new NewHotFixAction());
         popupGroup.add(new Separator());
 
-        DefaultActionGroup rebuildPopupGroup = new RebuildActionGroup("重建分支", true);
-        rebuildPopupGroup.add(new RebuildTestAction());
-        rebuildPopupGroup.add(new RebuildReleaseAction());
-        popupGroup.add(rebuildPopupGroup);
+        popupGroup.add(new RebuildTestAction());
         popupGroup.add(new Separator());
+
+//        DefaultActionGroup rebuildPopupGroup = new RebuildActionGroup("重建分支", true);
+//        rebuildPopupGroup.add(new RebuildTestAction());
+//        rebuildPopupGroup.add(new RebuildReleaseAction());
+//        popupGroup.add(rebuildPopupGroup);
+//        popupGroup.add(new Separator());
 
         I18n.init(project);
-        GitResolveConflictsAction conflictsAction = new GitResolveConflictsAction();
-        conflictsAction.getTemplatePresentation().setText(I18n.getContent(I18nKey.GIT_RESOLVE_CONFLICTS_ACTION$TEXT));
-        popupGroup.add(conflictsAction);
-        popupGroup.add(new Separator());
+//        GitResolveConflictsAction conflictsAction = new GitResolveConflictsAction();
+//        conflictsAction.getTemplatePresentation().setText(I18n.getContent(I18nKey.GIT_RESOLVE_CONFLICTS_ACTION$TEXT));
+//        popupGroup.add(conflictsAction);
+//        popupGroup.add(new Separator());
 
-        MergeRequestAction mergeRequestAction = new MergeRequestAction();
-        popupGroup.add(mergeRequestAction);
-        popupGroup.add(new Separator());
+//        MergeRequestAction mergeRequestAction = new MergeRequestAction();
+//        popupGroup.add(mergeRequestAction);
+//        popupGroup.add(new Separator());
 
         StartTestAction action = new StartTestAction();
         action.registerCustomShortcutSet(new CustomShortcutSet(KeyStroke.getKeyStroke("ctrl shift T")), myComponent);
         popupGroup.add(action);
-        popupGroup.add(new Separator());
+//        popupGroup.add(new Separator());
 
-        popupGroup.add(new StartReleaseAction());
-        popupGroup.add(new FinishReleaseAction());
-        popupGroup.add(new Separator());
-
-        popupGroup.add(new DeleteBranchAction());
-        popupGroup.add(new Separator());
-
-        popupGroup.add(new HelpAction());
+//        popupGroup.add(new StartReleaseAction());
+//        popupGroup.add(new FinishReleaseAction());
+//        popupGroup.add(new Separator());
+//
+//        popupGroup.add(new DeleteBranchAction());
+//        popupGroup.add(new Separator());
+//
+//        popupGroup.add(new HelpAction());
     }
 
 
