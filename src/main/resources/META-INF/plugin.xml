@@ -61,20 +61,7 @@
                    class="com.github.xiaolyuh.action.RebuildActionGroup">
                 <action id="GitFlowPlus.RebuildTestAction" class="com.github.xiaolyuh.action.RebuildTestAction"
                         text="重建测试分支" description="重建测试分支，并推送到远程仓库，原来的分支将被删除" icon="/icons/test.svg"/>
-                <action id="GitFlowPlus.RebuildReleaseAction" class="com.github.xiaolyuh.action.RebuildReleaseAction"
-                        text="重建发布分支" description="重建发布分支，并推送到远程仓库，原来的分支将被删除" icon="/icons/release.svg"/>
             </group>
-            <separator/>
-
-            <!--解决冲突-->
-            <action id="GitFlowPlus.ResolveConflicts" class="com.github.xiaolyuh.action.GitResolveConflictsAction"
-                    text="解决冲突" description="解决冲突"/>
-            <separator/>
-
-            <!--merge request-->
-            <action id="GitFlowPlus.MergeRequestAction" class="com.github.xiaolyuh.action.MergeRequestAction"
-                    text="Merge Request" description="发起 code review" icon="/icons/mergeToTest.svg">
-            </action>
             <separator/>
 
             <!--提测-->
@@ -82,21 +69,6 @@
                     text="提测" description="将当前开发分支合并到test分支" icon="/icons/mergeToTest.svg">
             </action>
             <separator/>
-
-            <!--发布流程-->
-            <action id="GitFlowPlus.StartReleaseAction" class="com.github.xiaolyuh.action.StartReleaseAction"
-                    text="开始发布" description="将当前开发分支合并到发布分支，加锁，防止再有开发分支合并到发布分支" icon="/icons/start.svg"/>
-            <action id="GitFlowPlus.FinishReleaseAction" class="com.github.xiaolyuh.action.FinishReleaseAction"
-                    text="发布完成" description="解锁，并将发布分支合并到主干分支" icon="/icons/finished.svg"/>
-            <separator/>
-
-            <action id="GitFlowPlus.DeleteBranchAction" class="com.github.xiaolyuh.action.DeleteBranchAction"
-                    text="删除分支" description="批了删除无效分支" icon="/icons/deleted.svg"/>
-            <separator/>
-
-            <!--帮助-->
-            <action id="GitFlowPlus.HelpAction" class="com.github.xiaolyuh.action.HelpAction"
-                    text="帮助" description="帮助" icon="/icons/help.svg"/>
 
         </group>
     </actions>
