@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class OkHttpClientUtil {
     private static final Logger logger = LoggerFactory.getLogger(OkHttpClientUtil.class);
 
-    private static OkHttpClient okHttpClient = new OkHttpClient.Builder()
+    private static final OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
@@ -31,13 +31,10 @@ public abstract class OkHttpClientUtil {
      * @param param         参数
      * @param interfaceName 接口名称
      * @return T
-     * @throws Exception Exception
      */
     public static <T> T postApplicationJson(String url, Object param, String interfaceName, Class<T> clazz) {
         // 生成requestBody
-        RequestBody requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8")
-                , JSON.toJSONString(param));
-
+        RequestBody requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8"), JSON.toJSONString(param));
         return post(url, interfaceName, requestBody, param, null, clazz);
     }
 
@@ -48,13 +45,10 @@ public abstract class OkHttpClientUtil {
      * @param param         参数
      * @param interfaceName 接口名称
      * @return T
-     * @throws Exception Exception
      */
     public static <T> T postApplicationJson(String url, Object param, Map<String, String> headers, String interfaceName, Class<T> clazz) {
         // 生成requestBody
-        RequestBody requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8")
-                , JSON.toJSONString(param));
-
+        RequestBody requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8"), JSON.toJSONString(param));
         return post(url, interfaceName, requestBody, param, headers, clazz);
     }
 
@@ -86,8 +80,8 @@ public abstract class OkHttpClientUtil {
             //创建/Call
             response = okHttpClient.newCall(request).execute();
             if (!response.isSuccessful()) {
-                logger.error("访问外部系统异常 {}: {}", url, response.toString());
-                errorMsg = String.format("访问外部系统异常:%s", response.toString());
+                logger.error("访问外部系统异常 {}: {}", url, response);
+                errorMsg = String.format("访问外部系统异常:%s", response);
                 throw new RuntimeException(errorMsg);
             }
             result = response.body().string();
@@ -101,7 +95,7 @@ public abstract class OkHttpClientUtil {
                 errorMsg = String.format("访问外部系统异常::%s", e.getMessage());
                 throw new RuntimeException(errorMsg, e);
             }
-            errorMsg = String.format("访问外部系统异常:::%s", response.toString());
+            errorMsg = String.format("访问外部系统异常:::%s", response);
             throw new RuntimeException(errorMsg, e);
         } finally {
             logger.info("请求 {}  {}，请求参数：{}, header:{}, 返回参数：{}", interfaceName, url, JSON.toJSONString(param),
