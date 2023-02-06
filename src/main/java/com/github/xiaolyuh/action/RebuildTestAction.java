@@ -4,10 +4,12 @@ import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.utils.StringUtils;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.IconLoader;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 重建测试分支
@@ -49,5 +51,10 @@ public class RebuildTestAction extends AbstractNewBranchAction {
     @Override
     public String getTitle(String branchName) {
         return I18n.getContent(I18nKey.REBUILD_TEST_ACTION$TITLE) + ": " + branchName;
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.EDT;
     }
 }

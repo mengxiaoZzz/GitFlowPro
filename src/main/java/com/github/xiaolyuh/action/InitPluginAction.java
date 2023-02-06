@@ -9,6 +9,7 @@ import com.github.xiaolyuh.notify.NotifyUtil;
 import com.github.xiaolyuh.ui.InitPluginDialog;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.utils.GitBranchUtil;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.progress.ProgressIndicator;
@@ -83,18 +84,6 @@ public class InitPluginAction extends AnAction {
                         }
                     }
 
-                    // 校验主发布支是否存在,不存在就新建
-//                    if (!remoteBranches.contains(initOptions.getReleaseBranch())) {
-//                        // 新建分支发布分支
-//                        GitCommandResult result = gitFlowPlus.newNewBranchBaseRemoteMaster(repository, initOptions.getMasterBranch(), initOptions.getReleaseBranch());
-//                        if (result.success()) {
-//                            NotifyUtil.notifySuccess(myProject, "Success", String.format(I18n.getContent(I18nKey.NEW_BRANCH_SUCCESS), initOptions.getMasterBranch(), initOptions.getReleaseBranch()));
-//                        } else {
-//                            NotifyUtil.notifyError(myProject, "Error", String.format(I18n.getContent(I18nKey.INIT_PLUGIN_ACTION$NOT_EXIST_MASTER_INFO), initOptions.getReleaseBranch()));
-//                            return;
-//                        }
-//                    }
-
                     // 存储配置
                     String configJson = JSON.toJSONString(initOptions);
                     ConfigUtil.saveConfigToLocal(project, configJson);
@@ -114,4 +103,8 @@ public class InitPluginAction extends AnAction {
         }
     }
 
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.EDT;
+    }
 }

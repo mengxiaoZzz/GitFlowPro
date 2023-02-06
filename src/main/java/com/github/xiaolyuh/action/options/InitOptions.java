@@ -2,7 +2,6 @@ package com.github.xiaolyuh.action.options;
 
 import com.github.xiaolyuh.i18n.LanguageEnum;
 
-import javax.swing.*;
 import java.util.Objects;
 
 /**

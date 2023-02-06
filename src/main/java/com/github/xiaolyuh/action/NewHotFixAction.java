@@ -4,11 +4,13 @@ import com.github.xiaolyuh.i18n.I18n;
 import com.github.xiaolyuh.i18n.I18nKey;
 import com.github.xiaolyuh.utils.ConfigUtil;
 import com.github.xiaolyuh.validator.GitNewBranchNameValidator;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.IconLoader;
 import git4idea.GitUtil;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 新建修复分支
@@ -43,9 +45,13 @@ public class NewHotFixAction extends AbstractNewBranchAction {
         return I18n.getContent(I18nKey.NEW_HOT_FIX_ACTION$TITLE) + ": " + branchName;
     }
 
-
     @Override
     public boolean isDeleteBranch() {
         return false;
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.EDT;
     }
 }
