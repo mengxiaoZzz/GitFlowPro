@@ -9,6 +9,7 @@ import com.intellij.openapi.actionSystem.Separator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.ListPopup;
 import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.util.NlsContexts;
 import com.intellij.openapi.wm.CustomStatusBarWidget;
 import com.intellij.openapi.wm.StatusBarWidget;
 import com.intellij.openapi.wm.impl.status.EditorBasedWidget;
@@ -16,7 +17,10 @@ import com.intellij.openapi.wm.impl.status.TextPanel;
 import com.intellij.ui.ClickListener;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.popup.PopupFactoryImpl;
+import com.intellij.util.Consumer;
+import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +35,6 @@ public class GitFlowPlusWidget extends EditorBasedWidget implements StatusBarWid
     private final TextPanel.WithIconAndArrows myComponent;
     DefaultActionGroup popupGroup;
     Project project;
-
 
     public GitFlowPlusWidget(@NotNull Project project) {
         super(project);
@@ -49,19 +52,17 @@ public class GitFlowPlusWidget extends EditorBasedWidget implements StatusBarWid
                 return true;
             }
         }.installOn(myComponent);
-        myComponent.setBorder(WidgetBorder.WIDE);
+        myComponent.setBorder(JBUI.CurrentTheme.StatusBar.Widget.border());
     }
 
     private void showPopup(MouseEvent e) {
         ListPopup popup = new PopupFactoryImpl.ActionGroupPopup("GitFlowPro", popupGroup, DataManager.getInstance().getDataContext(myComponent),
                 false, false, true, true, null, -1, null, null);
 
-        if (popup != null) {
-            Dimension dimension = popup.getContent().getPreferredSize();
-            Point at = new Point(0, -dimension.height);
-            popup.show(new RelativePoint(e.getComponent(), at));
-            Disposer.register(this, popup); // destroy popup on unexpected project close
-        }
+        Dimension dimension = popup.getContent().getPreferredSize();
+        Point at = new Point(0, -dimension.height);
+        popup.show(new RelativePoint(e.getComponent(), at));
+        Disposer.register(this, popup);
     }
 
     public void update() {
@@ -87,35 +88,9 @@ public class GitFlowPlusWidget extends EditorBasedWidget implements StatusBarWid
         popupGroup.add(new RebuildTestAction());
         popupGroup.add(new Separator());
 
-//        DefaultActionGroup rebuildPopupGroup = new RebuildActionGroup("重建分支", true);
-//        rebuildPopupGroup.add(new RebuildTestAction());
-//        rebuildPopupGroup.add(new RebuildReleaseAction());
-//        popupGroup.add(rebuildPopupGroup);
-//        popupGroup.add(new Separator());
-
         I18n.init(project);
-//        GitResolveConflictsAction conflictsAction = new GitResolveConflictsAction();
-//        conflictsAction.getTemplatePresentation().setText(I18n.getContent(I18nKey.GIT_RESOLVE_CONFLICTS_ACTION$TEXT));
-//        popupGroup.add(conflictsAction);
-//        popupGroup.add(new Separator());
 
-//        MergeRequestAction mergeRequestAction = new MergeRequestAction();
-//        popupGroup.add(mergeRequestAction);
-//        popupGroup.add(new Separator());
-
-        StartTestAction action = new StartTestAction();
-        action.registerCustomShortcutSet(new CustomShortcutSet(KeyStroke.getKeyStroke("ctrl shift T")), myComponent);
-        popupGroup.add(action);
-//        popupGroup.add(new Separator());
-
-//        popupGroup.add(new StartReleaseAction());
-//        popupGroup.add(new FinishReleaseAction());
-//        popupGroup.add(new Separator());
-//
-//        popupGroup.add(new DeleteBranchAction());
-//        popupGroup.add(new Separator());
-//
-//        popupGroup.add(new HelpAction());
+        popupGroup.add(new StartTestAction());
     }
 
 
@@ -134,5 +109,4 @@ public class GitFlowPlusWidget extends EditorBasedWidget implements StatusBarWid
     public String ID() {
         return GitFlowPlusWidget.class.getName();
     }
-
 }
