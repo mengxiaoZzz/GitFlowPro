@@ -3,13 +3,12 @@ package com.github.xiaolyuh.ui;
 import com.github.xiaolyuh.action.*;
 import com.github.xiaolyuh.i18n.I18n;
 import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.CustomShortcutSet;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.actionSystem.Separator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.ListPopup;
 import com.intellij.openapi.util.Disposer;
-import com.intellij.openapi.util.NlsContexts;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.wm.CustomStatusBarWidget;
 import com.intellij.openapi.wm.StatusBarWidget;
 import com.intellij.openapi.wm.impl.status.EditorBasedWidget;
@@ -17,7 +16,6 @@ import com.intellij.openapi.wm.impl.status.TextPanel;
 import com.intellij.ui.ClickListener;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.popup.PopupFactoryImpl;
-import com.intellij.util.Consumer;
 import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,6 +41,8 @@ public class GitFlowPlusWidget extends EditorBasedWidget implements StatusBarWid
         initPopupGroup(project);
         myComponent = new TextPanel.WithIconAndArrows() {
         };
+        @Nullable Icon icon = IconLoader.getIcon("/icons/icon.svg", GitFlowPlusWidget.class);
+        myComponent.setIcon(icon);
 
         new ClickListener() {
             @Override
